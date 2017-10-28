@@ -1,1 +1,2 @@
 ﻿Un texto de ejemplo
+Con salto de línea
