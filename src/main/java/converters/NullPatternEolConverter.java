@@ -2,9 +2,7 @@ package converters;
 
 public class NullPatternEolConverter implements EolConverter {
 
-    public byte[] convert(byte[] data, int dataLength, EolConversion eolConversion) {
-        byte[] outputData = new byte[dataLength];
-        System.arraycopy(data, 0, outputData, 0, dataLength);
-        return outputData;
+    public byte[] convert(byte[] aChar, EolConversion eolConversion, Parser parser) {
+        return aChar;
     }
 }

@@ -1,7 +1,8 @@
 package converters;
 
 public class Utf16EolConverter implements EolConverter {
-    public byte[] convert(byte[] data, int dataLength, EolConversion eolConversion) {
+
+    public byte[] convert(byte[] aChar, EolConversion eolConversion, Parser parser) {
         return new byte[0];
     }
 }

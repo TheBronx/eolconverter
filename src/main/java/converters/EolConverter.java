@@ -1,5 +1,7 @@
 package converters;
 
 public interface EolConverter {
-    byte[] convert(byte[] data, int dataLength, EolConversion eolConversion);
+
+    byte[] convert(byte[] aChar, EolConversion eolConversion, Parser parser);
+
 }
