@@ -1,4 +1,4 @@
-package converters.encoding;
+package converters.utf;
 
 public class CrLfByteUtils {
 

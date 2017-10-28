@@ -1,18 +1,20 @@
-package converters;
+package converters.utf;
 
-import converters.encoding.CrLfByteUtils;
+import converters.EolConversion;
+import converters.EolConverter;
+import converters.Parser;
 import converters.utils.ByteUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Utf32BigEndianEolConverter implements EolConverter {
+public class Utf16LittleEndianEolConverter implements EolConverter {
 
     private static Map<EolConversion, byte[]> CONVERSION = new HashMap<EolConversion, byte[]>();
     static {
-        CONVERSION.put(EolConversion.LF, ByteUtils.hexToByteArray("0000000A"));
-        CONVERSION.put(EolConversion.CR, ByteUtils.hexToByteArray("0000000D"));
-        CONVERSION.put(EolConversion.CRLF, ByteUtils.hexToByteArray("0000000D0000000A"));
+        CONVERSION.put(EolConversion.LF, ByteUtils.hexToByteArray("0A00"));
+        CONVERSION.put(EolConversion.CR, ByteUtils.hexToByteArray("0D00"));
+        CONVERSION.put(EolConversion.CRLF, ByteUtils.hexToByteArray("0D000A00"));
     }
 
     public byte[] convert(byte[] aChar, EolConversion eolConversion, Parser parser) {
@@ -31,15 +33,15 @@ public class Utf32BigEndianEolConverter implements EolConverter {
     }
 
     private boolean isCR(byte[] bytes) {
-        if (bytes == null || bytes.length<4) return false;
+        if (bytes == null || bytes.length<2) return false;
 
-        return CrLfByteUtils.isCarriageReturn(bytes[0], bytes[1], bytes[2], bytes[3]);
+        return CrLfByteUtils.isCarriageReturn(bytes[1], bytes[0]);
     }
 
     private boolean isLF(byte[] bytes) {
-        if (bytes == null || bytes.length<4) return false;
+        if (bytes == null || bytes.length<2) return false;
 
-        return CrLfByteUtils.isLineFeed(bytes[0], bytes[1], bytes[2], bytes[3]);
+        return CrLfByteUtils.isLineFeed(bytes[1], bytes[0]);
     }
 
 }

@@ -1,6 +1,7 @@
 package converters;
 
 import converters.encoding.Encoding;
+import converters.utf.*;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.instanceOf;

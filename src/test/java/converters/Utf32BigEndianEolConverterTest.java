@@ -1,5 +1,6 @@
 package converters;
 
+import converters.utf.Utf32BigEndianEolConverter;
 import converters.utils.ByteUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;

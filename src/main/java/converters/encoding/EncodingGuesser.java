@@ -1,5 +1,7 @@
 package converters.encoding;
 
+import converters.utf.CrLfByteUtils;
+
 public class EncodingGuesser {
 
     public Encoding guess(byte[] data, int dataLength) {
