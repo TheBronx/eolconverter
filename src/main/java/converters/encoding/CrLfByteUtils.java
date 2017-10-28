@@ -20,44 +20,80 @@ public class CrLfByteUtils {
         return first == CR_BYTE;
     }
 
-    public static boolean isLineFeedOrCarriageReturn(byte first, byte second) {
-        if (isLineFeed(first, second)) return true;
+    public static boolean isLineFeedOrCarriageReturnBigEndian(byte first, byte second) {
+        if (isLineFeedBigEndian(first, second)) return true;
 
-        if (isCarriageReturn(first, second)) return true;
+        if (isCarriageReturnBigEndian(first, second)) return true;
 
         return false;
     }
 
-    private static boolean isLineFeed(byte first, byte second) {
-        if (first == (byte) 0x00 && second == LF_BYTE) return true;
-        if (first == LF_BYTE && second == (byte) 0x00) return true;
+    public static boolean isLineFeedOrCarriageReturnLittleEndian(byte first, byte second) {
+        if (isLineFeedLittleEndian(first, second)) return true;
+
+        if (isCarriageReturnLittleEndian(first, second)) return true;
+
         return false;
     }
 
-    private static boolean isCarriageReturn(byte first, byte second) {
-        if (first == (byte) 0x00 && second == CR_BYTE) return true;
-        if (first == CR_BYTE && second == (byte) 0x00) return true;
+    private static boolean isLineFeedLittleEndian(byte first, byte second) {
+        return first == LF_BYTE && second == (byte) 0x00;
+    }
+
+    private static boolean isLineFeedBigEndian(byte first, byte second) {
+        return first == (byte) 0x00 && second == LF_BYTE;
+    }
+
+    private static boolean isCarriageReturnLittleEndian(byte first, byte second) {
+        return first == CR_BYTE && second == (byte) 0x00;
+    }
+
+    private static boolean isCarriageReturnBigEndian(byte first, byte second) {
+        return first == (byte) 0x00 && second == CR_BYTE;
+    }
+
+    public static boolean isLineFeedOrCarriageReturnBigEndian(byte first, byte second, byte third, byte fourth) {
+        if (isLineFeedBigEndian(first, second, third, fourth)) return true;
+
+        if (isCarriageReturnBigEndian(first, second, third, fourth)) return true;
+
         return false;
     }
 
-    public static boolean isLineFeedOrCarriageReturn(byte first, byte second, byte third, byte fourth) {
-        if (isLineFeed(first, second, third, fourth)) return true;
+    public static boolean isLineFeedOrCarriageReturnLittleEndian(byte first, byte second, byte third, byte fourth) {
+        if (isLineFeedLittleEndian(first, second, third, fourth)) return true;
 
-        if (isCarriageReturn(first, second, third, fourth)) return true;
+        if (isCarriageReturnLittleEndian(first, second, third, fourth)) return true;
 
         return false;
     }
 
     public static boolean isLineFeed(byte first, byte second, byte third, byte fourth) {
-        if (first == (byte) 0x00 && second == (byte) 0x00 && third == (byte) 0x00 && fourth == LF_BYTE) return true;
-        if (first == LF_BYTE && second == (byte) 0x00 && third == (byte) 0x00 && fourth == (byte) 0x00) return true;
+        if (isLineFeedBigEndian(first, second, third, fourth)) return true;
+        if (isLineFeedLittleEndian(first, second, third, fourth)) return true;
         return false;
     }
 
+    private static boolean isLineFeedLittleEndian(byte first, byte second, byte third, byte fourth) {
+        return first == LF_BYTE && second == (byte) 0x00 && third == (byte) 0x00 && fourth == (byte) 0x00;
+    }
+
+    private static boolean isLineFeedBigEndian(byte first, byte second, byte third, byte fourth) {
+        return first == (byte) 0x00 && second == (byte) 0x00 && third == (byte) 0x00 && fourth == LF_BYTE;
+    }
+
     public static boolean isCarriageReturn(byte first, byte second, byte third, byte fourth) {
-        if (first == (byte) 0x00 && second == (byte) 0x00 && third == (byte) 0x00 && fourth == CR_BYTE) return true;
-        if (first == CR_BYTE && second == (byte) 0x00 && third == (byte) 0x00 && fourth == (byte) 0x00) return true;
+        if (isCarriageReturnBigEndian(first, second, third, fourth)) return true;
+        if (isCarriageReturnLittleEndian(first, second, third, fourth)) return true;
         return false;
+    }
+
+    private static boolean isCarriageReturnLittleEndian(byte first, byte second, byte third, byte fourth) {
+        return first == CR_BYTE && second == (byte) 0x00 && third == (byte) 0x00 && fourth == (byte) 0x00;
+    }
+
+    private static boolean isCarriageReturnBigEndian(byte first, byte second, byte third, byte fourth) {
+        return first == (byte) 0x00 && second == (byte) 0x00 && third == (byte) 0x00 && fourth == CR_BYTE;
     }
 
 }

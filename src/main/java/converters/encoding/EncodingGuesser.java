@@ -6,12 +6,20 @@ public class EncodingGuesser {
         Encoding encoding = encodingFromBom(data, dataLength);
         if (encoding != Encoding.UNKNOWN) return encoding;
 
-        if (isUtf32(data, dataLength)) {
-            return Encoding.UTF32;
+        if (isUtf32BE(data, dataLength)) {
+            return Encoding.UTF32BE;
         }
 
-        if (isUtf16(data, dataLength)) {
-            return Encoding.UTF16;
+        if (isUtf32LE(data, dataLength)) {
+            return Encoding.UTF32LE;
+        }
+
+        if (isUtf16BE(data, dataLength)) {
+            return Encoding.UTF16BE;
+        }
+
+        if (isUtf16LE(data, dataLength)) {
+            return Encoding.UTF16LE;
         }
 
         if (isUtf8(data, dataLength)) {
@@ -22,31 +30,47 @@ public class EncodingGuesser {
     }
 
     private Encoding encodingFromBom(byte[] data, int dataLength) {
-        if (isUtf32Bom(data, dataLength)) return Encoding.UTF32;
+        if (isUtf32BEBom(data, dataLength)) return Encoding.UTF32BE;
+        if (isUtf32LEBom(data, dataLength)) return Encoding.UTF32LE;
 
-        if (isUtf16Bom(data, dataLength)) return Encoding.UTF16;
+        if (isUtf16BEBom(data, dataLength)) return Encoding.UTF16BE;
+        if (isUtf16LEBom(data, dataLength)) return Encoding.UTF16LE;
 
         if (isUtf8Bom(data, dataLength)) return Encoding.UTF8;
 
         return Encoding.UNKNOWN;
     }
 
-    private boolean isUtf32Bom(byte[] data, int dataLength) {
+    private boolean isUtf32BEBom(byte[] data, int dataLength) {
         if (dataLength < 4) return false;
 
         boolean isUtf32BigEndian = data[0] == (byte) 0x00 && data[1] == (byte) 0x00 && data[2] == (byte) 0xFE && data[3] == (byte) 0xFF;
-        boolean isUtf32LittleEndian = data[0] == (byte) 0xFF && data[1] == (byte) 0xFE && data[2] == (byte) 0x00 && data[3] == (byte) 0x00;
 
-        return isUtf32BigEndian || isUtf32LittleEndian;
+        return isUtf32BigEndian;
     }
 
-    private boolean isUtf16Bom(byte[] data, int dataLength) {
+    private boolean isUtf32LEBom(byte[] data, int dataLength) {
+        if (dataLength < 4) return false;
+
+        boolean isUtf32LittleEndian = data[0] == (byte) 0xFF && data[1] == (byte) 0xFE && data[2] == (byte) 0x00 && data[3] == (byte) 0x00;
+
+        return isUtf32LittleEndian;
+    }
+
+    private boolean isUtf16BEBom(byte[] data, int dataLength) {
         if (dataLength < 2) return false;
 
         boolean isUtf16BigEndian = data[0] == (byte) 0xFE && data[1] == (byte) 0xFF;
+
+        return isUtf16BigEndian;
+    }
+
+    private boolean isUtf16LEBom(byte[] data, int dataLength) {
+        if (dataLength < 2) return false;
+
         boolean isUtf16LittleEndian = data[0] == (byte) 0xFF && data[1] == (byte) 0xFE;
 
-        return isUtf16BigEndian || isUtf16LittleEndian;
+        return isUtf16LittleEndian;
     }
 
     private boolean isUtf8Bom(byte[] data, int dataLength) {
@@ -62,16 +86,30 @@ public class EncodingGuesser {
         return false;
     }
 
-    private boolean isUtf16(byte[] data, int dataLength) {
-        for (int i=0; i<dataLength - 1; i++) {
-            if (CrLfByteUtils.isLineFeedOrCarriageReturn(data[i], data[i + 1])) return true;
+    private boolean isUtf16BE(byte[] data, int dataLength) {
+        for (int i=0; i<dataLength - 1; i = i+2) {
+            if (CrLfByteUtils.isLineFeedOrCarriageReturnBigEndian(data[i], data[i + 1])) return true;
         }
         return false;
     }
 
-    private boolean isUtf32(byte[] data, int dataLength) {
-        for (int i=0; i<dataLength - 3; i++) {
-            if (CrLfByteUtils.isLineFeedOrCarriageReturn(data[i], data[i + 1], data[i + 2], data[i + 3])) return true;
+    private boolean isUtf16LE(byte[] data, int dataLength) {
+        for (int i=0; i<dataLength - 1; i = i+2) {
+            if (CrLfByteUtils.isLineFeedOrCarriageReturnLittleEndian(data[i], data[i + 1])) return true;
+        }
+        return false;
+    }
+
+    private boolean isUtf32BE(byte[] data, int dataLength) {
+        for (int i=0; i<dataLength - 3; i = i+4) {
+            if (CrLfByteUtils.isLineFeedOrCarriageReturnBigEndian(data[i], data[i + 1], data[i + 2], data[i + 3])) return true;
+        }
+        return false;
+    }
+
+    private boolean isUtf32LE(byte[] data, int dataLength) {
+        for (int i=0; i<dataLength - 3; i = i+4) {
+            if (CrLfByteUtils.isLineFeedOrCarriageReturnLittleEndian(data[i], data[i + 1], data[i + 2], data[i + 3])) return true;
         }
         return false;
     }

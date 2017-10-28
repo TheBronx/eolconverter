@@ -19,17 +19,19 @@ public class EolDataConverter {
      */
     public DataBytes convert(byte[] data, int dataLength) {
         Encoding encoding = encodingGuesser.guess(data, dataLength);
-        EolConverter converter = EolConverterFactory.getConverterFor(encoding);
-        byte[] convertedData = convertData(converter, data, dataLength);
+
+        byte[] convertedData = convertData(encoding, data, dataLength);
 
         return new DataBytes(convertedData, convertedData.length);
     }
 
-    public byte[] convertData(EolConverter converter, byte[] data, int dataLength) {
+    private byte[] convertData(Encoding encoding, byte[] data, int dataLength) {
+        EolConverter converter = EolConverterFactory.getConverterFor(encoding);
+        Parser parser = new Parser(data, dataLength, encoding);
+
         byte[] output = new byte[dataLength * 2];
         int outputLength = 0;
 
-        Parser parser = new Parser(data, dataLength, Encoding.UTF32);
         byte[] nextChar = parser.consumeNext();
         while(nextChar != null) {
             byte[] convertedChar = converter.convert(nextChar, eolConversion, parser);

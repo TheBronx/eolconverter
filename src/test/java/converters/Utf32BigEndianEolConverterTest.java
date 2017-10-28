@@ -15,28 +15,10 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class Utf32BigEndianEolConverterTest {
 
-    private EolConverter converter = new Utf32EolConverter();
+    private EolConverter converter = new Utf32BigEndianEolConverter();
 
     @Mock
     private Parser parser;
-
-    /*
-        @Test
-        public void convertCarriageReturnAndLineFeedToJustLineFeed() {
-            byte[] data = ByteUtils.hexToByteArray("0000000D" + "0000000A");
-            byte[] converted = converter.convert(data, data.length, EolConversion.LF);
-
-            assertThat(converted, equalTo(ByteUtils.hexToByteArray("0000000A")));
-        }
-
-        @Test
-        public void convertCarriageReturnAndLineFeedInOddPositionToJustLineFeed() {
-            byte[] data = ByteUtils.hexToByteArray("00000020" + "0000000D" + "0000000A");
-            byte[] converted = converter.convert(data, data.length, EolConversion.LF);
-
-            assertThat(converted, equalTo(ByteUtils.hexToByteArray("00000020" + "0000000A")));
-        }
-    */
 
     @Test
     public void convertOneCarriageReturnToALineFeed() {

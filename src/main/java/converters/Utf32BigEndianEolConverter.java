@@ -6,7 +6,7 @@ import converters.utils.ByteUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Utf32EolConverter implements EolConverter {
+public class Utf32BigEndianEolConverter implements EolConverter {
 
 
     private static Map<EolConversion, byte[]> CONVERSION = new HashMap<EolConversion, byte[]>();

@@ -9,8 +9,10 @@ public class EolConverterFactory {
 
     private static Map<Encoding, EolConverter> CONVERTERS = new HashMap<Encoding, EolConverter>();
     static {
-        CONVERTERS.put(Encoding.UTF32, new Utf32EolConverter());
-        CONVERTERS.put(Encoding.UTF16, new Utf16EolConverter());
+        CONVERTERS.put(Encoding.UTF32BE, new Utf32BigEndianEolConverter());
+        CONVERTERS.put(Encoding.UTF32LE, new Utf32LittleEndianEolConverter());
+        CONVERTERS.put(Encoding.UTF16BE, new Utf16BigEndianEolConverter());
+        CONVERTERS.put(Encoding.UTF16LE, new Utf16LittleEndianEolConverter());
         CONVERTERS.put(Encoding.UTF8, new Utf8EolConverter());
     }
 

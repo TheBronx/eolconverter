@@ -10,8 +10,10 @@ public class Parser {
     private static Map<Encoding, Integer> CHAR_SIZE = new HashMap<Encoding, Integer>();
     static {
         CHAR_SIZE.put(Encoding.UTF8, 1);
-        CHAR_SIZE.put(Encoding.UTF16, 2);
-        CHAR_SIZE.put(Encoding.UTF32, 4);
+        CHAR_SIZE.put(Encoding.UTF16BE, 2);
+        CHAR_SIZE.put(Encoding.UTF16LE, 2);
+        CHAR_SIZE.put(Encoding.UTF32BE, 4);
+        CHAR_SIZE.put(Encoding.UTF32LE, 4);
     }
 
     private final byte[] data;
