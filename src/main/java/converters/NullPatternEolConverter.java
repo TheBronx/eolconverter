@@ -1,8 +1,5 @@
 package converters;
 
-import converters.EolConversion;
-import converters.EolConverter;
-
 public class NullPatternEolConverter implements EolConverter {
 
     public byte[] convert(byte[] data, int dataLength, EolConversion eolConversion) {
