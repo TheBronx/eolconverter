@@ -12,11 +12,11 @@ public class CrLfByteUtils {
         return false;
     }
 
-    private static boolean isLineFeed(byte first) {
+    public static boolean isLineFeed(byte first) {
         return (first == LF_BYTE);
     }
 
-    private static boolean isCarriageReturn(byte first) {
+    public static boolean isCarriageReturn(byte first) {
         return first == CR_BYTE;
     }
 
