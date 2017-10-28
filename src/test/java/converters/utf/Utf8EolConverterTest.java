@@ -1,5 +1,8 @@
-package converters;
+package converters.utf;
 
+import converters.EolConversion;
+import converters.EolConverter;
+import converters.Parser;
 import converters.utf.Utf8EolConverter;
 import converters.utils.ByteUtils;
 import org.junit.Test;
