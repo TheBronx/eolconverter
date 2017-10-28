@@ -2,8 +2,8 @@ package converters.encoding;
 
 public class EncodingGuesser {
 
-    private static final byte UTF8_LF = (byte) 0x0A;
-    private static final byte UTF8_CR = (byte) 0x0D;
+    private static final byte LF_BYTE = (byte) 0x0A;
+    private static final byte CR_BYTE = (byte) 0x0D;
 
     public Encoding guess(byte[] data, int dataLength) {
         Encoding encoding = encodingFromBom(data, dataLength);
@@ -60,16 +60,49 @@ public class EncodingGuesser {
 
     private boolean isUtf8(byte[] data, int dataLength) {
         for (int i=0; i<dataLength; i++) {
-            if (data[i] == UTF8_CR || data[i] == UTF8_LF) return true;
+            if (isLineFeedOrCarriageReturn(data[i])) return true;
         }
         return false;
     }
 
     private boolean isUtf16(byte[] data, int dataLength) {
+        for (int i=0; i<dataLength - 1; i++) {
+            if (isLineFeedOrCarriageReturn(data[i], data[i + 1])) return true;
+        }
         return false;
     }
 
     private boolean isUtf32(byte[] data, int dataLength) {
+        for (int i=0; i<dataLength - 3; i++) {
+            if (isLineFeedOrCarriageReturn(data[i], data[i + 1], data[i + 2], data[i + 3])) return true;
+        }
+        return false;
+    }
+
+    private boolean isLineFeedOrCarriageReturn(byte first) {
+        if (first == LF_BYTE) return true;
+        if (first == CR_BYTE) return true;
+
+        return false;
+    }
+
+    private boolean isLineFeedOrCarriageReturn(byte first, byte second) {
+        if (first == (byte) 0x00 && second == LF_BYTE) return true;
+        if (first == LF_BYTE && second == (byte) 0x00) return true;
+
+        if (first == (byte) 0x00 && second == CR_BYTE) return true;
+        if (first == CR_BYTE && second == (byte) 0x00) return true;
+
+        return false;
+    }
+
+    private boolean isLineFeedOrCarriageReturn(byte first, byte second, byte third, byte fourth) {
+        if (first == (byte) 0x00 && second == (byte) 0x00 && third == (byte) 0x00 && fourth == LF_BYTE) return true;
+        if (first == LF_BYTE && second == (byte) 0x00 && third == (byte) 0x00 && fourth == (byte) 0x00) return true;
+
+        if (first == (byte) 0x00 && second == (byte) 0x00 && third == (byte) 0x00 && fourth == CR_BYTE) return true;
+        if (first == CR_BYTE && second == (byte) 0x00 && third == (byte) 0x00 && fourth == (byte) 0x00) return true;
+
         return false;
     }
 }
