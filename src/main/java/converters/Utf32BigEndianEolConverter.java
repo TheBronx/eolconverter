@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class Utf32BigEndianEolConverter implements EolConverter {
 
-
     private static Map<EolConversion, byte[]> CONVERSION = new HashMap<EolConversion, byte[]>();
     static {
         CONVERSION.put(EolConversion.LF, ByteUtils.hexToByteArray("0000000A"));
@@ -40,7 +39,7 @@ public class Utf32BigEndianEolConverter implements EolConverter {
     private boolean isLF(byte[] bytes) {
         if (bytes == null || bytes.length<4) return false;
 
-        return (CrLfByteUtils.isLineFeed(bytes[0], bytes[1], bytes[2], bytes[3]));
+        return CrLfByteUtils.isLineFeed(bytes[0], bytes[1], bytes[2], bytes[3]);
     }
 
 }

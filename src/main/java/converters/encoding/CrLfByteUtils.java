@@ -36,12 +36,24 @@ public class CrLfByteUtils {
         return false;
     }
 
+    public static boolean isLineFeed(byte first, byte second) {
+        if (isLineFeedBigEndian(first, second)) return true;
+        if (isLineFeedLittleEndian(first, second)) return true;
+        return false;
+    }
+
     private static boolean isLineFeedLittleEndian(byte first, byte second) {
         return first == LF_BYTE && second == (byte) 0x00;
     }
 
     private static boolean isLineFeedBigEndian(byte first, byte second) {
         return first == (byte) 0x00 && second == LF_BYTE;
+    }
+
+    public static boolean isCarriageReturn(byte first, byte second) {
+        if (isCarriageReturnBigEndian(first, second)) return true;
+        if (isCarriageReturnLittleEndian(first, second)) return true;
+        return false;
     }
 
     private static boolean isCarriageReturnLittleEndian(byte first, byte second) {
