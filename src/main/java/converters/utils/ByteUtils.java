@@ -2,6 +2,11 @@ package converters.utils;
 
 public class ByteUtils {
 
+    /**
+     * Converts an hexadecimal string like FF into an array of bytes [127, 127, 127, 127]
+     * @param hexString without "0x" at start
+     * @return array of bytes
+     */
     public static byte[] hexToByteArray(String hexString) {
         int len = hexString.length();
         byte[] data = new byte[len / 2];
