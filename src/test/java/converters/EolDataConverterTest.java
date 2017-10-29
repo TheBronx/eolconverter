@@ -1,6 +1,6 @@
 package converters;
 
-import data.DataBytes;
+import converters.data.DataBytes;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 

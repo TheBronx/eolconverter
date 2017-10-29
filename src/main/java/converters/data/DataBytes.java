@@ -1,4 +1,4 @@
-package data;
+package converters.data;
 
 public class DataBytes {
 

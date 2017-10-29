@@ -1,6 +1,6 @@
 package converters;
 
-import data.DataBytes;
+import converters.data.DataBytes;
 import converters.encoding.Encoding;
 import converters.encoding.EncodingGuesser;
 

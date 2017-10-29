@@ -1,6 +1,6 @@
 import converters.EolConversion;
 import converters.EolDataConverter;
-import data.DataBytes;
+import converters.data.DataBytes;
 
 import java.io.*;
 
