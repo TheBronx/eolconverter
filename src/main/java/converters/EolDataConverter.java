@@ -29,7 +29,11 @@ public class EolDataConverter {
         EolConverter converter = EolConverterFactory.getConverterFor(encoding);
         Parser parser = new Parser(data, dataLength, encoding);
 
-        byte[] output = new byte[dataLength * 2];
+        return convertData(converter, parser);
+    }
+
+    private byte[] convertData(EolConverter converter, Parser parser) {
+        byte[] output = new byte[parser.getDataLength() * 2];
         int outputLength = 0;
 
         byte[] charToConvert = parser.consumeNext();

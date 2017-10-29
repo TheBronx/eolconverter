@@ -47,4 +47,7 @@ public class Parser {
         return next;
     }
 
+    public int getDataLength() {
+        return dataLength;
+    }
 }
