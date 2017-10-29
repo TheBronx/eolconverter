@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class EolConverterFactory {
 
+    private static final NullPatternEolConverter DEFAULT_CONVERTER = new NullPatternEolConverter();
+
     private static Map<Encoding, EolConverter> CONVERTERS = new HashMap<Encoding, EolConverter>();
     static {
         CONVERTERS.put(Encoding.UTF32BE, new Utf32BigEndianEolConverter());
@@ -20,7 +22,7 @@ public class EolConverterFactory {
     public static EolConverter getConverterFor(Encoding encoding) {
         EolConverter eolConverter = CONVERTERS.get(encoding);
         if (eolConverter == null) {
-            eolConverter = new NullPatternEolConverter();
+            eolConverter = DEFAULT_CONVERTER;
         }
         return eolConverter;
     }
