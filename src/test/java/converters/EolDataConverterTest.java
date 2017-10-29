@@ -97,6 +97,32 @@ public class EolDataConverterTest {
         assertResultEqualsFile(result, "files/bigfile-utf16-cr.txt");
     }
 
+    @Test
+    public void convertCrLfToLfInUtf32() throws Exception {
+        EolDataConverter eolConverter = new EolDataConverter(EolConversion.LF);
+
+        byte[] result = convertFileContents(eolConverter, "files/bigfile-utf32-crlf.txt");
+
+        assertResultEqualsFile(result, "files/bigfile-utf32-lf.txt");
+    }
+
+    @Test
+    public void convertLfToCrLfInUtf32() throws Exception {
+        EolDataConverter eolConverter = new EolDataConverter(EolConversion.CRLF);
+
+        byte[] result = convertFileContents(eolConverter, "files/bigfile-utf32-lf.txt");
+
+        assertResultEqualsFile(result, "files/bigfile-utf32-crlf.txt");
+    }
+
+    @Test
+    public void convertCrLfToCrInUtf32() throws Exception {
+        EolDataConverter eolConverter = new EolDataConverter(EolConversion.CR);
+
+        byte[] result = convertFileContents(eolConverter, "files/bigfile-utf32-crlf.txt");
+
+        assertResultEqualsFile(result, "files/bigfile-utf32-cr.txt");
+    }
 
     private void assertResultEqualsFile(byte[] result, String file) throws IOException {
         InputStream inputstream = new FileInputStream(file);
