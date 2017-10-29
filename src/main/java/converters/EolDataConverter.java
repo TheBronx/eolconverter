@@ -1,6 +1,7 @@
 package converters;
 
 import converters.data.DataBytes;
+import converters.data.DataBytesBuilder;
 import converters.encoding.Encoding;
 import converters.encoding.EncodingGuesser;
 
@@ -20,41 +21,28 @@ public class EolDataConverter {
     public DataBytes convert(byte[] data, int dataLength) {
         Encoding encoding = encodingGuesser.guess(data, dataLength);
 
-        byte[] convertedData = convertData(data, dataLength, encoding);
-
-        return new DataBytes(convertedData, convertedData.length);
+        return convertData(data, dataLength, encoding);
     }
 
-    private byte[] convertData(byte[] data, int dataLength, Encoding encoding) {
+    private DataBytes convertData(byte[] data, int dataLength, Encoding encoding) {
         EolConverter converter = EolConverterFactory.getConverterFor(encoding);
         Parser parser = new Parser(data, dataLength, encoding);
 
         return convertData(converter, parser);
     }
 
-    private byte[] convertData(EolConverter converter, Parser parser) {
-        byte[] output = new byte[parser.getDataLength() * 2];
-        int outputLength = 0;
+    private DataBytes convertData(EolConverter converter, Parser parser) {
+        DataBytesBuilder builder = DataBytesBuilder.dataBytes();
 
         byte[] charToConvert = parser.consumeNext();
         while(charToConvert != null) {
             byte[] convertedChar = converter.convert(charToConvert, eolConversion, parser);
-            copyToOutput(output, outputLength, convertedChar);
-            outputLength += convertedChar.length;
+            builder.append(convertedChar);
 
             charToConvert = parser.consumeNext();
         }
 
-        return getDataBytes(output, outputLength);
+        return builder.build();
     }
 
-    private void copyToOutput(byte[] output, int outputLength, byte[] convertedChar) {
-        System.arraycopy(convertedChar, 0, output, outputLength, convertedChar.length);
-    }
-
-    private byte[] getDataBytes(byte[] output, int outputLength) {
-        byte[] convertedData = new byte[outputLength];
-        System.arraycopy(output, 0, convertedData, 0, outputLength);
-        return convertedData;
-    }
 }
