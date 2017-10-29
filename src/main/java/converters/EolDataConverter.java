@@ -16,7 +16,7 @@ public class EolDataConverter {
     }
 
     /**
-     * There is no such thing as C# "out" in Java so instead I am returning outputData and length in an Object (DataBytes)
+     * There is no such thing as C# "out" in Java so instead I am returning outputData and outputLength in an Object (DataBytes)
      */
     public DataBytes convert(byte[] data, int dataLength) {
         Encoding encoding = encodingGuesser.guess(data, dataLength);
