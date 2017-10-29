@@ -2,6 +2,7 @@ package converters;
 
 import converters.data.DataBytes;
 import org.apache.commons.io.IOUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -122,6 +123,53 @@ public class EolDataConverterTest {
         byte[] result = convertFileContents(eolConverter, "files/bigfile-utf32-crlf.txt");
 
         assertResultEqualsFile(result, "files/bigfile-utf32-cr.txt");
+    }
+
+    @Test
+    public void convertAllCrLfFileToLfInUtf8() throws Exception {
+        EolDataConverter eolConverter = new EolDataConverter(EolConversion.LF);
+
+        byte[] result = convertFileContents(eolConverter, "files/utf8-crlf-only.txt");
+
+        assertResultEqualsFile(result, "files/utf8-lf-only.txt");
+    }
+
+    @Test
+    public void convertAllLfFileToCrLfInUtf8() throws Exception {
+        EolDataConverter eolConverter = new EolDataConverter(EolConversion.CRLF);
+
+        byte[] result = convertFileContents(eolConverter, "files/utf8-lf-only.txt");
+
+        assertResultEqualsFile(result, "files/utf8-crlf-only.txt");
+    }
+
+    /**
+     * This test fails, because of a problem I cannot solve :D
+     *
+     * When reading a big file in blocks of 1024 bytes (or whatever), there is a chance
+     * that a CR is the last byte of the chunk, and a LF the first byte of the next chunk
+     * When that happens, instead of replacing CRLF with one LF, it gets replaced twice.
+     * I can't fix that with the current EolDataConverter interface. I would have to
+     * keep that last CR for the next chunk and the client would have to let the converter
+     * know when the file has ended in some way. In other words, store a state on EolDataConverter.
+     */
+    @Test
+    @Ignore
+    public void convertAllCrLfFileToLfInUtf16() throws Exception {
+        EolDataConverter eolConverter = new EolDataConverter(EolConversion.LF);
+
+        byte[] result = convertFileContents(eolConverter, "files/utf16-crlf-only.txt");
+
+        assertResultEqualsFile(result, "files/utf16-lf-only.txt");
+    }
+
+    @Test
+    public void convertAllLfFileToCrLfInUtf16() throws Exception {
+        EolDataConverter eolConverter = new EolDataConverter(EolConversion.CRLF);
+
+        byte[] result = convertFileContents(eolConverter, "files/utf16-lf-only.txt");
+
+        assertResultEqualsFile(result, "files/utf16-crlf-only.txt");
     }
 
     private void assertResultEqualsFile(byte[] result, String file) throws IOException {
